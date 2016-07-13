@@ -9,8 +9,18 @@ export default Ember.Route.extend({
     return get(this, 'store').find('product', 'TL');
   },
 
-  setupController(controller) {
+  setupController(controller, model) {
     this._super(...arguments);
+
+    const defaultVariantId = get(model, 'defaultVariant.id');
+
+    if (defaultVariantId && get(model, 'id') !== defaultVariantId) {
+      this.transitionTo({
+        queryParams: {
+          selectedVariantId: defaultVariantId
+        }
+      });
+    }
 
     set(controller, 'selectedValues', new Map());
   }
