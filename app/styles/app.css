@@ -1,0 +1,34 @@
+html, body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI";
+  margin: 20px;
+}
+
+.color-picker--item {
+  border-radius: 17px;
+  height: 34px;
+  width: 34px;
+  border: 1px solid #e4e4e4;
+}
+
+.color-picker--item--black {
+  background: #000;
+  color: #fff;
+}
+
+.color-picker--item--white {
+  background: #fff;
+  color: #000;
+}
+
+.color-picker--item--silver {
+  background: silver;
+  color: #000;
+}
+
+.selected-sku {
+  padding: 16px;
+  margin: 5px 0;
+  background-color: #85d685;
+  color: #212121;
+  border: 1px solid #57af57;
+}

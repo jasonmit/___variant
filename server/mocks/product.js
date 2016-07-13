@@ -26,6 +26,9 @@ module.exports = function(app) {
             }, {
               type: 'variant',
               id: 'TL-BLACK-WIRED'
+            }, {
+              type: 'variant',
+              id: 'TL-SILVER-WIRED'
             }]
           }
         }
@@ -87,6 +90,20 @@ module.exports = function(app) {
           }
         }
       }, {
+        type: 'variant',
+        id: 'TL-SILVER-WIRED',
+        relationships: {
+          'variant-theme-values': {
+            data: [{
+              type: 'variant-theme-value',
+              id: 5
+            }, {
+              type: 'variant-theme-value',
+              id: 3
+            }]
+          }
+        }
+      }, {
         type: 'variant-theme',
         id: 1,
         attributes: {
@@ -103,6 +120,20 @@ module.exports = function(app) {
         id: 1,
         attributes: {
           label: 'white'
+        },
+        relationships: {
+          'variant-theme': {
+            data: {
+              type: 'variant-theme',
+              id: 1
+            }
+          }
+        }
+      }, {
+        type: 'variant-theme-value',
+        id: 5,
+        attributes: {
+          label: 'silver'
         },
         relationships: {
           'variant-theme': {

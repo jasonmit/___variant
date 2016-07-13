@@ -6,7 +6,7 @@ export default Ember.Route.extend({
   store: inject.service(),
 
   model() {
-    return get(this, 'store').find('product', 'NL123');
+    return get(this, 'store').find('product', 'TL');
   },
 
   setupController(controller) {

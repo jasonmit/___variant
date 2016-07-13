@@ -1,6 +1,10 @@
 <h2>{{model.name}}</h2>
 
-<h3>{{selectedSku}}</h3>
+{{#if selectedSku}}
+  <div class="selected-sku">
+    <strong>selected:</strong> {{selectedSku}}
+  </div>
+{{/if}}
 
 {{#each selectionArray as |selection|}}
   <div>theme: {{selection.key}} value: {{selection.value.label}}</div>

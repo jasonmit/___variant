@@ -2,8 +2,6 @@
   <h4>Color picker</h4>
 
   {{#each values as |value|}}
-    <button {{action variant-selected value.variantTheme.label value}}>
-      {{value.label}}
-    </button>
+    <button title={{value.label}} class="color-picker--item color-picker--item--{{value.label}}" {{action variant-selected value.variantTheme.label value}}></button>
   {{/each}}
 {{/if}}
