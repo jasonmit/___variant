@@ -2,13 +2,19 @@
 
 {{#if selectedSku}}
   <div class="selected-sku">
-    <strong>selected:</strong> {{selectedSku}}
+    <strong>Variant:</strong> {{selectedSku}}
   </div>
 {{/if}}
 
-{{#each selectionArray as |selection|}}
-  <div>theme: {{selection.key}} value: {{selection.value.label}}</div>
-{{/each}}
+{{#if selectionArray.length}}
+<div>
+  <strong>selected:</strong>
+
+  {{#each selectionArray as |selection|}}
+    <span class="selected-variant-value">{{selection.value.label}}</span>
+  {{/each}}
+</div>
+{{/if}}
 
 {{#each variantThemes as |theme|}}
   {{#if (has-component (concat 'variant-pickers/' theme.label))}}

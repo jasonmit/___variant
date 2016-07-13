@@ -32,3 +32,11 @@ html, body {
   color: #212121;
   border: 1px solid #57af57;
 }
+
+.selected-variant-value:after {
+    content: ' + '
+}
+
+.selected-variant-value:last-of-type:after {
+    content:''
+}
