@@ -25,6 +25,12 @@ module.exports = function(app) {
               id: 'TL-WHITE-BATTERY'
             }, {
               type: 'variant',
+              id: 'TL-WHITE-BATTERY-3P'
+            }, {
+              type: 'variant',
+              id: 'TL-WHITE-BATTERY-2P'
+            }, {
+              type: 'variant',
               id: 'TL-BLACK-BATTERY'
             }, {
               type: 'variant',
@@ -50,6 +56,40 @@ module.exports = function(app) {
             }, {
               type: 'variant-theme-value',
               id: 4
+            }]
+          }
+        }
+      }, {
+        type: 'variant',
+        id: 'TL-WHITE-BATTERY-3P',
+        relationships: {
+          'variant-theme-values': {
+            data: [{
+              type: 'variant-theme-value',
+              id: 1
+            }, {
+              type: 'variant-theme-value',
+              id: 4
+            }, {
+              type: 'variant-theme-value',
+              id: 6
+            }]
+          }
+        }
+      }, {
+        type: 'variant',
+        id: 'TL-WHITE-BATTERY-2P',
+        relationships: {
+          'variant-theme-values': {
+            data: [{
+              type: 'variant-theme-value',
+              id: 1
+            }, {
+              type: 'variant-theme-value',
+              id: 4
+            }, {
+              type: 'variant-theme-value',
+              id: 7
             }]
           }
         }
@@ -122,6 +162,12 @@ module.exports = function(app) {
           label: 'power'
         }
       }, {
+        type: 'variant-theme',
+        id: 3,
+        attributes: {
+          label: 'pack'
+        }
+      }, {
         type: 'variant-theme-value',
         id: 1,
         attributes: {
@@ -188,6 +234,34 @@ module.exports = function(app) {
             data: {
               type: 'variant-theme',
               id: 2
+            }
+          }
+        }
+      }, {
+        type: 'variant-theme-value',
+        id: 6,
+        attributes: {
+          label: 'three pack'
+        },
+        relationships: {
+          'variant-theme': {
+            data: {
+              type: 'variant-theme',
+              id: 3
+            }
+          }
+        }
+      }, {
+        type: 'variant-theme-value',
+        id: 7,
+        attributes: {
+          label: 'two pack'
+        },
+        relationships: {
+          'variant-theme': {
+            data: {
+              type: 'variant-theme',
+              id: 3
             }
           }
         }

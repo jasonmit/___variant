@@ -1,0 +1,13 @@
+{{#if values.length}}
+  <h4>Unknown</h4>
+
+  {{#each values as |value|}}
+    {{#variant-pickers/-private/item value
+      selected=selectedValues
+      class="unknown-picker--item"
+      on-click=(action variant-selected)
+    }}
+      {{value.label}}
+    {{/variant-pickers/-private/item}}
+  {{/each}}
+{{/if}}
