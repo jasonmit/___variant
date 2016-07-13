@@ -1,0 +1,9 @@
+{{#if values.length}}
+  <h4>Color picker</h4>
+
+  {{#each values as |value|}}
+    <button {{action variant-selected value.variantTheme.label value}}>
+      {{value.label}}
+    </button>
+  {{/each}}
+{{/if}}

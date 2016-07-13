@@ -1,0 +1,20 @@
+<h2>{{model.name}}</h2>
+
+<h3>{{selectedSku}}</h3>
+
+{{#each selectionArray as |selection|}}
+  <div>theme: {{selection.key}} value: {{selection.value.label}}</div>
+{{/each}}
+
+{{#each variantThemes as |theme|}}
+  {{#if (has-component (concat 'variant-pickers/' theme.label))}}
+
+    {{component (concat 'variant-pickers/' theme.label)
+        variant-selected=(action 'variant-selected')
+        values=theme.values
+    }}
+
+  {{else}}
+    Ooops.. no picker for {{theme.label}}
+  {{/if}}
+{{/each}}
