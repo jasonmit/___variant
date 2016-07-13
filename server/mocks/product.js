@@ -153,25 +153,25 @@ module.exports = function(app) {
         type: 'variant-theme',
         id: 1,
         attributes: {
-          label: 'color'
+          label: 'Color'
         }
       }, {
         type: 'variant-theme',
         id: 2,
         attributes: {
-          label: 'power'
+          label: 'Power'
         }
       }, {
         type: 'variant-theme',
         id: 3,
         attributes: {
-          label: 'pack'
+          label: 'Pack'
         }
       }, {
         type: 'variant-theme-value',
         id: 1,
         attributes: {
-          label: 'white'
+          label: 'White'
         },
         relationships: {
           'variant-theme': {
@@ -185,7 +185,7 @@ module.exports = function(app) {
         type: 'variant-theme-value',
         id: 5,
         attributes: {
-          label: 'silver'
+          label: 'Silver'
         },
         relationships: {
           'variant-theme': {
@@ -199,7 +199,7 @@ module.exports = function(app) {
         type: 'variant-theme-value',
         id: 2,
         attributes: {
-          label: 'black'
+          label: 'Black'
         },
         relationships: {
           'variant-theme': {
@@ -213,7 +213,7 @@ module.exports = function(app) {
         type: 'variant-theme-value',
         id: 3,
         attributes: {
-          label: 'wired'
+          label: 'Wired'
         },
         relationships: {
           'variant-theme': {
@@ -227,7 +227,7 @@ module.exports = function(app) {
         type: 'variant-theme-value',
         id: 4,
         attributes: {
-          label: 'battery'
+          label: 'Battery'
         },
         relationships: {
           'variant-theme': {
@@ -241,7 +241,7 @@ module.exports = function(app) {
         type: 'variant-theme-value',
         id: 6,
         attributes: {
-          label: 'three pack'
+          label: 'Three pack'
         },
         relationships: {
           'variant-theme': {
@@ -255,7 +255,7 @@ module.exports = function(app) {
         type: 'variant-theme-value',
         id: 7,
         attributes: {
-          label: 'two pack'
+          label: 'Two pack'
         },
         relationships: {
           'variant-theme': {

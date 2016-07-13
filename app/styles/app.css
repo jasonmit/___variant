@@ -39,7 +39,7 @@ html, body {
   color: #000;
 }
 
-.power-picker--item {
+.button-picker--item {
   background: none;
   border: 3px solid #e4e4e4;
   padding: 10px;

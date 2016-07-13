@@ -7,7 +7,14 @@ export default Controller.extend({
   store: inject.service(),
   queryParams: ['selectedVariantId'],
 
-  selectedValues: null,
+  _selectedValues: null,
+
+  selectedValues: computed('_selectedValues', function() {
+    let map = get(this, '_selectedValues');
+
+    return Array.from(map.values());
+  }),
+
   selectedVariantId: null,
   variants: computed.readOnly('model.variants'),
 
@@ -19,16 +26,6 @@ export default Controller.extend({
     }
   }),
 
-  selectedValuesArray: computed('selectedVariant.variantThemeValues', 'selectedValues', function() {
-    let selectedVariant = get(this, 'selectedVariant.variantThemeValues');
-
-    if (isPresent(selectedVariant)) {
-      return selectedVariant;
-    }
-
-    return Array.from(get(this, 'selectedValues').values());
-  }),
-
   variantThemes: computed('model.variants.@each.themes', function() {
     let variants = get(this, 'model.variants');
     let themes = [].concat.apply([], variants.getEach('themes'));
@@ -36,26 +33,35 @@ export default Controller.extend({
     return uniqBy(themes, 'id');
   }),
 
+  toggleVariantValue(value) {
+    let themeId = get(value, 'variantTheme.id');
+    let selectedValues = get(this, '_selectedValues');
+
+    if (selectedValues.has(themeId) && selectedValues.get(themeId) === value) {
+      selectedValues.delete(themeId);
+    } else {
+      selectedValues.set(themeId, value);
+    }
+
+    this.notifyPropertyChange('_selectedValues');
+  },
+
   actions: {
     'variant-selected'(value) {
-      let id = get(value, 'variantTheme.id');
-      let selectedValues = get(this, 'selectedValues');
       let variants = get(this, 'variants');
+      let selectedValues = get(this, '_selectedValues');
 
-      if (selectedValues.has(id) && selectedValues.get(id) === value) {
-        selectedValues.delete(id);
-      } else {
-        selectedValues.set(id, value);
-      }
-
-      // `selectedValues` is a native Map instance, we're responsible for notifying listeners
-      this.notifyPropertyChange('selectedValues');
+      this.toggleVariantValue(value);
 
       let sku = variants.find((variant) => {
-        return get(variant, 'variantThemeValues').every((themeValue) => {
-          let id = get(themeValue, 'variantTheme.id');
+        if (get(variant, 'variantThemeValues.length') !== selectedValues.size) {
+          return false;
+        }
 
-          return selectedValues.has(id) && selectedValues.get(id) === themeValue;
+        return get(variant, 'variantThemeValues').every((value) => {
+          let themeId = get(value, 'variantTheme.id');
+
+          return selectedValues.get(themeId) === value;
         });
       });
 

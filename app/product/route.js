@@ -9,10 +9,12 @@ export default Ember.Route.extend({
     return get(this, 'store').find('product', 'TL');
   },
 
-  setupController(controller, model) {
+  setupController(controller, model, { queryParams }) {
     this._super(...arguments);
 
     const defaultVariantId = get(model, 'defaultVariant.id');
+
+    set(controller, '_selectedValues', new Map());
 
     if (defaultVariantId && get(model, 'id') !== defaultVariantId) {
       this.transitionTo({
@@ -22,6 +24,12 @@ export default Ember.Route.extend({
       });
     }
 
-    set(controller, 'selectedValues', new Map());
+    let variantId = get(queryParams, 'selectedVariantId') || defaultVariantId;
+    let variant = get(this, 'store').peekRecord('variant', variantId);
+    let variantThemeValues = get(variant, 'variantThemeValues');
+
+    get(variant, 'variantThemeValues').forEach((value) => {
+      controller.toggleVariantValue(value);
+    });
   }
 });

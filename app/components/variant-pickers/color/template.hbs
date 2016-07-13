@@ -1,5 +1,9 @@
-<h4>Color</h4>
+<h4>{{theme.label}}</h4>
 
 {{#each values as |value|}}
-  {{variant-pickers/-private/item value selected=selectedValues class="color-picker--item" on-click=(action variant-selected)}}
+  {{variant-pickers/-private/item value
+      selected=_selectedValues
+      class="color-picker--item"
+      on-change=(action variant-selected)
+  }}
 {{/each}}
