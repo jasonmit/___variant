@@ -4,7 +4,17 @@ html, body {
 }
 
 .picker-item {
+  outline: none;
   cursor: pointer;
+  margin-right: 8px;
+}
+
+.picker-item:hover {
+  border-color: #d7d8da;
+}
+
+.picker-item.active:hover {
+  border-color: #ffd384;
 }
 
 .color-picker--item {
@@ -32,7 +42,6 @@ html, body {
 .power-picker--item {
   background: none;
   border: 3px solid #e4e4e4;
-  margin: 0 5px;
   padding: 10px;
 }
 
@@ -57,5 +66,10 @@ html, body {
 }
 
 .active {
-  border: 3px solid orange;
+  border: 3px solid #fda504;
+}
+
+h4 {
+  color: #4c4c4c;
+  margin-bottom: 8px;
 }

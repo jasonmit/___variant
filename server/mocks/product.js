@@ -10,7 +10,7 @@ module.exports = function(app) {
         type: 'product',
         id: req.params.id,
         attributes: {
-          name: 'Trinket',
+          name: 'Product Name',
         },
         relationships: {
           'default-variant': {

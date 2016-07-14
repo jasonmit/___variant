@@ -1,9 +1,9 @@
 {{#if values.length}}
-  <h4>Power picker</h4>
+  <h4>Power</h4>
 
   {{#each values as |value|}}
-    {{#variant-pickers/-item value selected=selectedValues class="power-picker--item" on-click=(action variant-selected)}}
+    {{#variant-pickers/-private/item value selected=selectedValues class="power-picker--item" on-click=(action variant-selected)}}
       {{value.label}}
-    {{/variant-pickers/-item}}
+    {{/variant-pickers/-private/item}}
   {{/each}}
 {{/if}}
