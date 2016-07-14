@@ -32,7 +32,7 @@ export default Controller.extend({
     return uniqBy(themes, 'id');
   }),
 
-  availableVariants: computed('model.variants.@each.themes', 'selectedValues.[]', function() {
+  availableVariants: computed('model.variants.@each.themes', '_selectedValues', function() {
     let selectedValues = get(this, '_selectedValues');
     let variants = get(this, 'model.variants');
     let size = selectedValues.size;
@@ -93,29 +93,34 @@ export default Controller.extend({
     this.notifyPropertyChange('_selectedValues');
   },
 
+  lookupVariantByValues(values) {
+    let variants = get(this, 'variants');
+
+    return variants.find((variant) => {
+      if (get(variant, 'variantThemeValues.length') !== values.size) {
+        return false;
+      }
+
+      return get(variant, 'variantThemeValues').every((value) => {
+        let themeId = get(value, 'variantTheme.id');
+
+        return values.get(themeId) === value;
+      });
+    });
+  },
+
   actions: {
     'variant-selected'(value) {
       let variants = get(this, 'variants');
       let selectedValues = get(this, '_selectedValues');
 
       if (!get(this, 'availableVariantValues').contains(value)) {
-        debugger;
         selectedValues.clear();
       }
 
       this.toggleVariantValue(value);
 
-      let sku = variants.find((variant) => {
-        if (get(variant, 'variantThemeValues.length') !== selectedValues.size) {
-          return false;
-        }
-
-        return get(variant, 'variantThemeValues').every((value) => {
-          let themeId = get(value, 'variantTheme.id');
-
-          return selectedValues.get(themeId) === value;
-        });
-      });
+      let sku = this.lookupVariantByValues(selectedValues);
 
       set(this, 'selectedVariantId', sku ? get(sku, 'id') : null);
     }
