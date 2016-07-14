@@ -3,6 +3,7 @@
 {{#each values as |value|}}
   {{variant-pickers/-private/item value
       selected=_selectedValues
+      availableValues=availableValues
       class="color-picker--item"
       on-change=(action variant-selected)
   }}

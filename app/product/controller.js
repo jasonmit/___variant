@@ -8,15 +8,14 @@ export default Controller.extend({
   queryParams: ['selectedVariantId'],
 
   _selectedValues: null,
+  selectedVariantId: null,
+  variants: computed.readOnly('model.variants'),
 
   selectedValues: computed('_selectedValues', function() {
     let map = get(this, '_selectedValues');
 
     return Array.from(map.values());
   }),
-
-  selectedVariantId: null,
-  variants: computed.readOnly('model.variants'),
 
   selectedVariant: computed('selectedVariantId', function() {
     let selectedVariantId = get(this, 'selectedVariantId');
@@ -26,8 +25,8 @@ export default Controller.extend({
     }
   }),
 
-  variantThemes: computed('availableVariants.@each.themes', function() {
-    let variants = get(this, 'availableVariants');
+  variantThemes: computed('model.variants.@each.themes', function() {
+    let variants = get(this, 'model.variants');
     let themes = [].concat.apply([], variants.getEach('themes'));
 
     return uniqBy(themes, 'id');
@@ -39,8 +38,8 @@ export default Controller.extend({
     let size = selectedValues.size;
 
     if (size) {
-      return variants.filter((variants) => {
-        let values = get(variants, 'variantThemeValues');
+      return variants.filter((variant) => {
+        let values = get(variant, 'variantThemeValues');
 
         // fast escape valve
         if (size > get(values, 'length')) {
@@ -60,7 +59,17 @@ export default Controller.extend({
     }
 
     return variants;
-  }),
+  }).readOnly(),
+
+  availableVariantValues: computed('availableVariants.[]', function() {
+    const availableVariants = Ember.A(get(this, 'availableVariants'));
+
+    return availableVariants.getEach('variantThemeValues').reduce((ret, values) => {
+      ret.addObjects(values.toArray());
+
+      return ret;
+    }, Ember.A());
+  }).readOnly(),
 
   toggleVariantValue(value) {
     let themeId = get(value, 'variantTheme.id');
@@ -79,6 +88,10 @@ export default Controller.extend({
     'variant-selected'(value) {
       let variants = get(this, 'variants');
       let selectedValues = get(this, '_selectedValues');
+
+      if (!get(this, 'availableVariantValues').contains(value)) {
+        selectedValues.clear();
+      }
 
       this.toggleVariantValue(value);
 

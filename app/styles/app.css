@@ -9,6 +9,14 @@ html, body {
   margin-right: 8px;
 }
 
+.disabled {
+  opacity: 0.5;
+}
+
+.active.disabled {
+  opacity: 1;
+}
+
 .picker-item:hover {
   border-color: #d7d8da;
 }
