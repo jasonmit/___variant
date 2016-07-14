@@ -1,13 +1,14 @@
 import Ember from 'ember';
+import uniqBy from '../utils/uniq-by';
 
-const { computed, isPresent, A:emberA, get, set, guidFor, inject } = Ember;
+const { computed, Controller, isPresent, A:emberA, get, set, inject } = Ember;
 
-export default Ember.Controller.extend({
+export default Controller.extend({
   store: inject.service(),
   queryParams: ['selectedVariantId'],
 
-  selection: null,
   selectedVariantId: null,
+  selectedValues: null,
   variants: computed.readOnly('model.variants'),
 
   selectedVariant: computed('selectedVariantId', function() {
@@ -18,15 +19,18 @@ export default Ember.Controller.extend({
     }
   }),
 
-  selectionArray: computed('selection', function() {
-    const selection = get(this, 'selection');
+  selectedValuesArray: computed('selectedVariant', 'selectedValues', function() {
+    const selectedVariant = get(this, 'selectedVariant.variantThemeValues');
+
+    if (isPresent(selectedVariant)) {
+      return selectedVariant;
+    }
+
+    const selectedValues = get(this, 'selectedValues');
     const ret = emberA();
 
-    for (var [key, value] of selection.entries()) {
-      ret.pushObject({
-        key,
-        value
-      });
+    for (var [key, value] of selectedValues.entries()) {
+      ret.pushObject(value);
     }
 
     return ret;
@@ -36,48 +40,32 @@ export default Ember.Controller.extend({
     const variants = get(this, 'model.variants');
     const themes = [].concat.apply([], variants.getEach('themes'));
 
-    return this.uniqBy(themes, 'id');
+    return uniqBy(themes, 'id');
   }),
 
   actions: {
-    'variant-selected'(key, variantThemeValue) {
-      const selection = get(this, 'selection');
+    'variant-selected'(variantThemeType, variantThemeValue) {
+      const selectedValues = get(this, 'selectedValues');
       const variants = get(this, 'variants');
 
-      if (selection.has(key) && selection.get(key) === variantThemeValue) {
-        selection.delete(key);
+      if (selectedValues.has(variantThemeType) && selectedValues.get(variantThemeType) === variantThemeValue) {
+        selectedValues.delete(variantThemeType);
       } else {
-        selection.set(key, variantThemeValue);
+        selectedValues.set(variantThemeType, variantThemeValue);
       }
 
-      // `selection` is a native Map, so we're responsible for notifying listeners
-      this.notifyPropertyChange('selection');
+      // `selectedValues` is a native Map, so we're responsible for notifying listeners
+      this.notifyPropertyChange('selectedValues');
 
       const sku = variants.find((variant) => {
         return get(variant, 'variantThemeValues').every((themeValue) => {
           const label = get(themeValue, 'variantTheme.label');
 
-          return selection.has(label) && selection.get(label) === themeValue;
+          return selectedValues.has(label) && selectedValues.get(label) === themeValue;
         });
       });
 
       set(this, 'selectedVariantId', sku ? get(sku, 'id') : null);
     }
-  },
-
-  uniqBy(target, key) {
-    const ret = emberA();
-    const seen = Object.create(null);
-
-    target.forEach((item) => {
-      const guid = guidFor(get(item, key));
-
-      if (!(guid in seen)) {
-        seen[guid] = true;
-        ret.push(item);
-      }
-    });
-
-    return ret;
   }
 });

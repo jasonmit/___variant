@@ -12,6 +12,6 @@ export default Ember.Route.extend({
   setupController(controller) {
     this._super(...arguments);
 
-    set(controller, 'selection', new Map());
+    set(controller, 'selectedValues', new Map());
   }
 });
