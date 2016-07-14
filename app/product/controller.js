@@ -38,7 +38,7 @@ export default Controller.extend({
     let size = selectedValues.size;
 
     if (size) {
-      return variants.filter((variant) => {
+      let found = variants.filter((variant) => {
         let values = get(variant, 'variantThemeValues');
         let len = get(values, 'length');
 
@@ -61,9 +61,13 @@ export default Controller.extend({
           return true;
         });
       });
+
+      console.log('available', found.getEach('id'));
+
+      return found;
     }
 
-    return variants;
+    return Ember.A();
   }).readOnly(),
 
   availableVariantValues: computed('availableVariants.[]', function() {
@@ -94,9 +98,8 @@ export default Controller.extend({
       let variants = get(this, 'variants');
       let selectedValues = get(this, '_selectedValues');
 
-      debugger;
-
       if (!get(this, 'availableVariantValues').contains(value)) {
+        debugger;
         selectedValues.clear();
       }
 
