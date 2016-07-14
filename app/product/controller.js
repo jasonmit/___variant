@@ -1,13 +1,22 @@
 import Ember from 'ember';
 
-const { computed, A:emberA, get, set, guidFor, inject } = Ember;
+const { computed, isPresent, A:emberA, get, set, guidFor, inject } = Ember;
 
 export default Ember.Controller.extend({
-  // see: setupController
-  selection: null,
-
   store: inject.service(),
+  queryParams: ['selectedVariantId'],
+
+  selection: null,
+  selectedVariantId: null,
   variants: computed.readOnly('model.variants'),
+
+  selectedVariant: computed('selectedVariantId', function() {
+    const selectedVariantId = get(this, 'selectedVariantId');
+
+    if (isPresent(selectedVariantId)) {
+      return get(this, 'store').peekRecord('variant', selectedVariantId);
+    }
+  }),
 
   selectionArray: computed('selection', function() {
     const selection = get(this, 'selection');
@@ -41,9 +50,10 @@ export default Ember.Controller.extend({
         selection.set(key, variantThemeValue);
       }
 
+      // `selection` is a native Map, so we're responsible for notifying listeners
       this.notifyPropertyChange('selection');
 
-      const selectedSku = variants.find((variant) => {
+      const sku = variants.find((variant) => {
         return get(variant, 'variantThemeValues').every((themeValue) => {
           const label = get(themeValue, 'variantTheme.label');
 
@@ -51,7 +61,7 @@ export default Ember.Controller.extend({
         });
       });
 
-      set(this, 'selectedSku', selectedSku);
+      set(this, 'selectedVariantId', get(sku, 'id'));
     }
   },
 

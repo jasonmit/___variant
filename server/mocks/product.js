@@ -10,9 +10,15 @@ module.exports = function(app) {
         type: 'product',
         id: req.params.id,
         attributes: {
-          name: 'Trinket'
+          name: 'Trinket',
         },
         relationships: {
+          'default-variant': {
+            data: {
+              type: 'variant',
+              id: 'TL-WHITE-BATTERY'
+            }
+          },
           variants: {
             data: [{
               type: 'variant',

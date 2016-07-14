@@ -1,5 +1,1 @@
-import Component from '../-base';
-
-export default Component.extend({
-
-});
+export { default } from '../-base';

@@ -4,5 +4,6 @@ import { belongsTo, hasMany } from 'ember-data/relationships';
 
 export default Model.extend({
   name: attr('string'),
-  variants: hasMany('variant')
+  variants: hasMany('variant'),
+  defaultVariant: belongsTo('variant')
 });

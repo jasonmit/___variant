@@ -1,5 +1,7 @@
 import Ember from 'ember';
 
-export default Ember.Component.extend({
-  
+const { Component, computed } = Ember;
+
+export default Component.extend({
+  isVisible: computed.bool('values.length')
 });
