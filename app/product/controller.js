@@ -19,21 +19,14 @@ export default Controller.extend({
     }
   }),
 
-  selectedValuesArray: computed('selectedVariant', 'selectedValues', function() {
+  selectedValuesArray: computed('selectedVariant', 'selectedValues.variantThemeValues', function() {
     const selectedVariant = get(this, 'selectedVariant.variantThemeValues');
 
     if (isPresent(selectedVariant)) {
       return selectedVariant;
     }
 
-    const selectedValues = get(this, 'selectedValues');
-    const ret = emberA();
-
-    for (var [key, value] of selectedValues.entries()) {
-      ret.pushObject(value);
-    }
-
-    return ret;
+    return Array.from(get(this, 'selectedValues').values());
   }),
 
   variantThemes: computed('model.variants.@each.themes', function() {

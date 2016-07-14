@@ -1,21 +1,5 @@
 <h2>{{model.name}}</h2>
 
-{{#if selectedVariant}}
-  <div class="selected-sku">
-    <strong>Variant:</strong> {{selectedVariant}}
-  </div>
-{{/if}}
-
-{{#if selectedValuesArray.length}}
-<div>
-  <strong>selected:</strong>
-
-  {{#each selectedValuesArray as |selection|}}
-    <span class="selected-variant-value">{{selection.label}}</span>
-  {{/each}}
-</div>
-{{/if}}
-
 {{#each variantThemes as |theme|}}
   {{#if (has-component (concat 'variant-pickers/' theme.label))}}
     {{component (concat 'variant-pickers/' theme.label)
@@ -26,3 +10,19 @@
     Missing variant picker for variant type `{{theme.label}}`
   {{/if}}
 {{/each}}
+
+{{#if selectedValuesArray.length}}
+  <div class="selected-variant-container">
+    <strong>selected:</strong>
+
+    {{#each selectedValuesArray as |selection|}}
+      <span class="selected-variant-container--selection">{{selection.label}}</span>
+    {{/each}}
+  </div>
+{{/if}}
+
+{{#if selectedVariant}}
+  <div class="selected-sku">
+    <strong>Resolved variant:</strong> {{selectedVariant}}
+  </div>
+{{/if}}

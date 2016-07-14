@@ -33,10 +33,14 @@ html, body {
   border: 1px solid #57af57;
 }
 
-.selected-variant-value:after {
-    content: ' + '
+.selected-variant-container {
+  padding: 15px 0;
 }
 
-.selected-variant-value:last-of-type:after {
-    content:''
+.selected-variant-container--selection:after {
+  content: ' + '
+}
+
+.selected-variant-container--selection:last-of-type:after {
+  content:''
 }
