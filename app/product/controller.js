@@ -12,7 +12,7 @@ export default Controller.extend({
   variants: computed.readOnly('model.variants'),
 
   selectedVariant: computed('selectedVariantId', function() {
-    const selectedVariantId = get(this, 'selectedVariantId');
+    let selectedVariantId = get(this, 'selectedVariantId');
 
     if (isPresent(selectedVariantId)) {
       return get(this, 'store').peekRecord('variant', selectedVariantId);
@@ -20,7 +20,7 @@ export default Controller.extend({
   }),
 
   selectedValuesArray: computed('selectedVariant', 'selectedValues.variantThemeValues', function() {
-    const selectedVariant = get(this, 'selectedVariant.variantThemeValues');
+    let selectedVariant = get(this, 'selectedVariant.variantThemeValues');
 
     if (isPresent(selectedVariant)) {
       return selectedVariant;
@@ -30,16 +30,16 @@ export default Controller.extend({
   }),
 
   variantThemes: computed('model.variants.@each.themes', function() {
-    const variants = get(this, 'model.variants');
-    const themes = [].concat.apply([], variants.getEach('themes'));
+    let variants = get(this, 'model.variants');
+    let themes = [].concat.apply([], variants.getEach('themes'));
 
     return uniqBy(themes, 'id');
   }),
 
   actions: {
     'variant-selected'(variantThemeType, variantThemeValue) {
-      const selectedValues = get(this, 'selectedValues');
-      const variants = get(this, 'variants');
+      let selectedValues = get(this, 'selectedValues');
+      let variants = get(this, 'variants');
 
       if (selectedValues.has(variantThemeType) && selectedValues.get(variantThemeType) === variantThemeValue) {
         selectedValues.delete(variantThemeType);
@@ -50,9 +50,9 @@ export default Controller.extend({
       // `selectedValues` is a native Map, so we're responsible for notifying listeners
       this.notifyPropertyChange('selectedValues');
 
-      const sku = variants.find((variant) => {
+      let sku = variants.find((variant) => {
         return get(variant, 'variantThemeValues').every((themeValue) => {
-          const label = get(themeValue, 'variantTheme.label');
+          let label = get(themeValue, 'variantTheme.label');
 
           return selectedValues.has(label) && selectedValues.get(label) === themeValue;
         });
