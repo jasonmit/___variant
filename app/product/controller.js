@@ -40,10 +40,15 @@ export default Controller.extend({
     if (size) {
       return variants.filter((variant) => {
         let values = get(variant, 'variantThemeValues');
+        let len = get(values, 'length');
 
         // fast escape valve
-        if (size > get(values, 'length')) {
+        if (size > len) {
           return false;
+        }
+
+        if (size === len) {
+          return compare(selectedValues, values);
         }
 
         return values.every((value) => {
@@ -89,6 +94,8 @@ export default Controller.extend({
       let variants = get(this, 'variants');
       let selectedValues = get(this, '_selectedValues');
 
+      debugger;
+
       if (!get(this, 'availableVariantValues').contains(value)) {
         selectedValues.clear();
       }
@@ -111,3 +118,23 @@ export default Controller.extend({
     }
   }
 });
+
+function compare(a, b) {
+  if (a.length != b.length) {
+    return false;
+  }
+
+  for (var i = 0; i < b.length; i++) {
+    if (Array.isArray(a[i])) {
+      if (!compare(a[i], b[i])) {
+        return false;
+      }
+    }
+
+    if (a[i] !== b[i]) {
+      return false;
+    }
+  }
+
+  return true;
+}
