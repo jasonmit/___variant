@@ -6,4 +6,4 @@ export default BaseComponent.extend({
       return this.attrs['variant-selected'](value);
     }
   }
-})
+});

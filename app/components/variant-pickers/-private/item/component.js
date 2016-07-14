@@ -16,10 +16,7 @@ const ItemComponent = Ember.Component.extend({
     return (get(this, 'value.label') + '').toLowerCase();
   }),
   click() {
-    const value = get(this, 'value');
-    const variantTheme = get(value, 'variantTheme.label');
-
-    return this.attrs['on-change'](value);
+    return this.attrs['on-change'](get(this, 'value'));
   }
 });
 

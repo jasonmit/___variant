@@ -28,8 +28,6 @@ export default Ember.Route.extend({
     let variant = get(this, 'store').peekRecord('variant', variantId);
     let variantThemeValues = get(variant, 'variantThemeValues');
 
-    get(variant, 'variantThemeValues').forEach((value) => {
-      controller.toggleVariantValue(value);
-    });
+    variantThemeValues.forEach((value) => controller.toggleVariantValue(value));
   }
 });

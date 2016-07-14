@@ -1,7 +1,7 @@
 import Ember from 'ember';
 import uniqBy from '../utils/uniq-by';
 
-const { computed, Controller, isPresent, A:emberA, get, set, inject } = Ember;
+const { computed, Controller, isPresent, get, set, inject } = Ember;
 
 export default Controller.extend({
   store: inject.service(),
