@@ -1,7 +1,5 @@
 <h2>{{model.name}}</h2>
 
-SKUs available: {{availableVariants.length}}
-
 {{#each variantThemes as |theme|}}
   {{component (concat 'variant-pickers/' (if (has-component (concat 'variant-pickers/' theme.label)) theme.label 'unknown'))
       variant-selected=(action 'variant-selected')
@@ -14,7 +12,7 @@ SKUs available: {{availableVariants.length}}
 
 {{#if selectedValues.length}}
   <div class="selected-variant-container">
-    <strong>selected:</strong>
+    <strong>SELECTED:</strong>
 
     {{#each selectedValues as |selection|}}
       <span class="selected-variant-container--selection">{{selection.label}}</span>
@@ -22,8 +20,4 @@ SKUs available: {{availableVariants.length}}
   </div>
 {{/if}}
 
-{{#if selectedVariant}}
-  <div class="selected-sku">
-    <strong>Resolved variant :</strong> {{selectedVariant}}
-  </div>
-{{/if}}
+<button class="purchase {{if selectedVariant 'show' 'hide'}}">Purchase</button>

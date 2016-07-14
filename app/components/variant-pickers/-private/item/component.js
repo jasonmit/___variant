@@ -2,6 +2,14 @@ import Ember from 'ember';
 
 const { computed, get } = Ember;
 
+function lcase(input) {
+  if (typeof input === 'string') {
+    return input.toLowerCase();
+  }
+
+  return input;
+}
+
 const ItemComponent = Ember.Component.extend({
   tagName: 'button',
   attributeBindings: ['title'],
@@ -9,15 +17,19 @@ const ItemComponent = Ember.Component.extend({
   classNameBindings: ['active', 'label', 'available::disabled'],
   title: computed.readOnly('value.label'),
   value: null,
+
   active: computed('selected.[]', 'value', function() {
-    return get(this, 'selected').contains(get(this, 'value'));
+    return Ember.A(get(this, 'selected')).contains(get(this, 'value'));
   }),
+
   available: computed('availableValues.[]', 'value', function() {
     return Ember.A(get(this, 'availableValues')).contains(get(this, 'value'));
   }),
+
   label: computed('value.label', function() {
-    return (get(this, 'value.label') + '').toLowerCase();
+    return lcase(get(this, 'value.label'));
   }),
+
   click() {
     return this.attrs['on-change'](get(this, 'value'));
   }
