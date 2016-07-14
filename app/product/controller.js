@@ -36,19 +36,28 @@ export default Controller.extend({
     let selectedValues = get(this, '_selectedValues');
     let variants = get(this, 'model.variants');
     let size = selectedValues.size;
+    let selectedValuesArray = Array.from(selectedValues.values());
 
     if (size) {
-      let found = variants.filter((variant) => {
+      // none of this is optimized...
+      return variants.filter((variant) => {
         let values = get(variant, 'variantThemeValues');
         let len = get(values, 'length');
 
-        // fast escape valve
+        // quick escape
         if (size > len) {
           return false;
         }
 
-        if (size === len) {
-          return compare(selectedValues, values);
+        let selectedThemes = selectedValuesArray.getEach('variantTheme');
+        let variantThemes = get(variant, 'themes');
+
+        let hasEveryTheme = selectedThemes.every((selectedTheme) => {
+          return variantThemes.contains(selectedTheme);
+        });
+
+        if (!hasEveryTheme) {
+          return false;
         }
 
         return values.every((value) => {
@@ -61,10 +70,6 @@ export default Controller.extend({
           return true;
         });
       });
-
-      console.log('available', found.getEach('id'));
-
-      return found;
     }
 
     return Ember.A();
@@ -111,7 +116,6 @@ export default Controller.extend({
 
   actions: {
     'variant-selected'(value) {
-      let variants = get(this, 'variants');
       let selectedValues = get(this, '_selectedValues');
 
       if (!get(this, 'availableVariantValues').contains(value)) {
@@ -126,23 +130,3 @@ export default Controller.extend({
     }
   }
 });
-
-function compare(a, b) {
-  if (a.length != b.length) {
-    return false;
-  }
-
-  for (var i = 0; i < b.length; i++) {
-    if (Array.isArray(a[i])) {
-      if (!compare(a[i], b[i])) {
-        return false;
-      }
-    }
-
-    if (a[i] !== b[i]) {
-      return false;
-    }
-  }
-
-  return true;
-}

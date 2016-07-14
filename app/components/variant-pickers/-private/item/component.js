@@ -1,14 +1,6 @@
 import Ember from 'ember';
 
-const { computed, get } = Ember;
-
-function lcase(input) {
-  if (typeof input === 'string') {
-    return input.toLowerCase();
-  }
-
-  return input;
-}
+const { computed, get, isEmpty } = Ember;
 
 const ItemComponent = Ember.Component.extend({
   tagName: 'button',
@@ -23,11 +15,17 @@ const ItemComponent = Ember.Component.extend({
   }),
 
   available: computed('availableValues.[]', 'value', function() {
+    let available = get(this, 'availableValues');
+
+    if (isEmpty(available)) {
+      return true;
+    }
+
     return Ember.A(get(this, 'availableValues')).contains(get(this, 'value'));
   }),
 
   label: computed('value.label', function() {
-    return lcase(get(this, 'value.label'));
+    return Ember.String.dasherize(get(this, 'value.label'));
   }),
 
   click() {

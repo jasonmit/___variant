@@ -4,6 +4,7 @@ const { Component, get, computed } = Ember;
 
 export default Component.extend({
   isVisible: computed.bool('values.length'),
+  values: computed.readOnly('theme.values'),
 
   _selectedValues: computed('selectedValues.[]', 'theme', function() {
     let themeId = get(this, 'theme.id');
