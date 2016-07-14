@@ -61,7 +61,7 @@ export default Ember.Controller.extend({
         });
       });
 
-      set(this, 'selectedVariantId', get(sku, 'id'));
+      set(this, 'selectedVariantId', sku ? get(sku, 'id') : null);
     }
   },
 
