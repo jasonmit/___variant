@@ -3,26 +3,37 @@ html, body {
   margin: 20px;
 }
 
+.picker-item {
+  cursor: pointer;
+}
+
 .color-picker--item {
   border-radius: 17px;
   height: 34px;
   width: 34px;
-  border: 1px solid #e4e4e4;
+  border: 3px solid #e4e4e4;
 }
 
-.color-picker--item--black {
+.color-picker--item.black {
   background: #000;
   color: #fff;
 }
 
-.color-picker--item--white {
+.color-picker--item.white {
   background: #fff;
   color: #000;
 }
 
-.color-picker--item--silver {
+.color-picker--item.silver {
   background: silver;
   color: #000;
+}
+
+.power-picker--item {
+  background: none;
+  border: 3px solid #e4e4e4;
+  margin: 0 5px;
+  padding: 10px;
 }
 
 .selected-sku {
@@ -43,4 +54,8 @@ html, body {
 
 .selected-variant-container--selection:last-of-type:after {
   content:''
+}
+
+.active {
+  border: 3px solid orange;
 }

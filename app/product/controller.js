@@ -7,8 +7,8 @@ export default Controller.extend({
   store: inject.service(),
   queryParams: ['selectedVariantId'],
 
-  selectedVariantId: null,
   selectedValues: null,
+  selectedVariantId: null,
   variants: computed.readOnly('model.variants'),
 
   selectedVariant: computed('selectedVariantId', function() {
@@ -19,7 +19,7 @@ export default Controller.extend({
     }
   }),
 
-  selectedValuesArray: computed('selectedVariant', 'selectedValues.variantThemeValues', function() {
+  selectedValuesArray: computed('selectedVariant.variantThemeValues', 'selectedValues', function() {
     let selectedVariant = get(this, 'selectedVariant.variantThemeValues');
 
     if (isPresent(selectedVariant)) {
@@ -37,24 +37,25 @@ export default Controller.extend({
   }),
 
   actions: {
-    'variant-selected'(variantThemeType, variantThemeValue) {
+    'variant-selected'(value) {
+      let id = get(value, 'variantTheme.id');
       let selectedValues = get(this, 'selectedValues');
       let variants = get(this, 'variants');
 
-      if (selectedValues.has(variantThemeType) && selectedValues.get(variantThemeType) === variantThemeValue) {
-        selectedValues.delete(variantThemeType);
+      if (selectedValues.has(id) && selectedValues.get(id) === value) {
+        selectedValues.delete(id);
       } else {
-        selectedValues.set(variantThemeType, variantThemeValue);
+        selectedValues.set(id, value);
       }
 
-      // `selectedValues` is a native Map, so we're responsible for notifying listeners
+      // `selectedValues` is a native Map instance, we're responsible for notifying listeners
       this.notifyPropertyChange('selectedValues');
 
       let sku = variants.find((variant) => {
         return get(variant, 'variantThemeValues').every((themeValue) => {
-          let label = get(themeValue, 'variantTheme.label');
+          let id = get(themeValue, 'variantTheme.id');
 
-          return selectedValues.has(label) && selectedValues.get(label) === themeValue;
+          return selectedValues.has(id) && selectedValues.get(id) === themeValue;
         });
       });
 

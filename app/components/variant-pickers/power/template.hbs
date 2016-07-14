@@ -2,8 +2,8 @@
   <h4>Power picker</h4>
 
   {{#each values as |value|}}
-    <button {{action variant-selected value.variantTheme.label value}}>
+    {{#variant-pickers/-item value selected=selectedValues class="power-picker--item" on-click=(action variant-selected)}}
       {{value.label}}
-    </button>
+    {{/variant-pickers/-item}}
   {{/each}}
 {{/if}}
