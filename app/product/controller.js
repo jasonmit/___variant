@@ -26,11 +26,40 @@ export default Controller.extend({
     }
   }),
 
-  variantThemes: computed('model.variants.@each.themes', function() {
-    let variants = get(this, 'model.variants');
+  variantThemes: computed('availableVariants.@each.themes', function() {
+    let variants = get(this, 'availableVariants');
     let themes = [].concat.apply([], variants.getEach('themes'));
 
     return uniqBy(themes, 'id');
+  }),
+
+  availableVariants: computed('model.variants.@each.themes', 'selectedValues.[]', function() {
+    let selectedValues = get(this, '_selectedValues');
+    let variants = get(this, 'model.variants');
+    let size = selectedValues.size;
+
+    if (size) {
+      return variants.filter((variants) => {
+        let values = get(variants, 'variantThemeValues');
+
+        // fast escape valve
+        if (size > get(values, 'length')) {
+          return false;
+        }
+
+        return values.every((value) => {
+          let themeId = get(value, 'variantTheme.id');
+
+          if (selectedValues.has(themeId) && selectedValues.get(themeId) !== value) {
+            return false;
+          }
+
+          return true;
+        });
+      });
+    }
+
+    return variants;
   }),
 
   toggleVariantValue(value) {
