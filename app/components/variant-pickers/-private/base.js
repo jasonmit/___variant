@@ -10,6 +10,8 @@ export default Component.extend({
 
     if (themeId) {
       return Ember.A(get(this, 'selectedValues')).filter((value) => {
+        // TODO: I should be able to compare refs here, but
+        // they are not referencing the same object <shrug>
         return get(value, 'variantTheme.id') === themeId;
       });
     }
