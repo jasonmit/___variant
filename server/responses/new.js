@@ -1,7 +1,13 @@
+/*
+ * BREAKING CHANGES:
+ * renamed variants to variantThemes
+ * renamed variantOptions to variants
+ * renamed variant inside invertedIndex to variantThemeValue
+ */
 module.exports = {
   "code": "FOOBAR",
   "name": "Product Name",
-  "variants": [
+  "variantThemes": [
     {
       "variantName": "color",
       "options": [
@@ -17,7 +23,7 @@ module.exports = {
       ]
     }
   ],
-  "variantOptions": [
+  "variants": [
     {
       "code": "FB0BBES",
       "priceData": {
@@ -57,28 +63,28 @@ module.exports = {
   ],
   "invertedIndex": [
     {
-      "variant": "battery",
+      "variantThemeValue": "battery",
       "candidates": [
         "FB0BWES",
         "FB0BBES"
       ]
     },
     {
-      "variant": "white",
+      "variantThemeValue": "white",
       "candidates": [
         "FB0BWES",
         "FB3LWES"
       ]
     },
     {
-      "variant": "wired",
+      "variantThemeValue": "wired",
       "candidates": [
         "FB3LWES",
         "FB3LBES"
       ]
     },
     {
-      "variant": "black",
+      "variantThemeValue": "black",
       "candidates": [
         "FB0BBES",
         "FB3LBES"

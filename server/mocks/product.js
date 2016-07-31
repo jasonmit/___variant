@@ -5,7 +5,7 @@ module.exports = function(app) {
   var productRouter = express.Router();
 
   productRouter.get('/:id', function(req, res) {
-    res.send(require('../responses/json-api'));
+    res.send(require('../responses/new'));
   });
 
   app.use('/api/products', productRouter);
