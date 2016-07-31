@@ -1,15 +1,16 @@
 module.exports = {
-  "id": "FOOBAR",
+  "code": "FOOBAR",
+  "name": "Product Name",
   "variants": [
     {
-      "variantName": "Color",
+      "variantName": "color",
       "options": [
         "white",
         "black"
       ]
     },
     {
-      "variantName": "Power",
+      "variantName": "power",
       "options": [
         "battery",
         "wired"
@@ -18,64 +19,40 @@ module.exports = {
   ],
   "variantOptions": [
     {
-      "stock": {
-        "stockLevelStatus": {
-          "code": "inStock",
-          "codeLowerCase": "instock"
-        }
-      },
+      "code": "FB0BBES",
       "priceData": {
         "currencyIso": "USD",
         "priceType": "BUY",
         "value": "99.0",
         "formattedValue": "$99.00"
-      },
-      "code": "FB0BBES"
+      }
     },
     {
-      "stock": {
-        "stockLevelStatus": {
-          "code": "inStock",
-          "codeLowerCase": "instock"
-        }
-      },
+      "code": "FB0BWES",
       "priceData": {
         "currencyIso": "USD",
         "priceType": "BUY",
         "value": "99.0",
         "formattedValue": "$99.00"
-      },
-      "code": "FB0BWES"
+      }
     },
     {
-      "stock": {
-        "stockLevelStatus": {
-          "code": "inStock",
-          "codeLowerCase": "instock"
-        }
-      },
+      "code": "FB3LBES",
       "priceData": {
         "currencyIso": "USD",
         "priceType": "BUY",
         "value": "99.0",
         "formattedValue": "$99.00"
-      },
-      "code": "FB3LBES"
+      }
     },
     {
-      "stock": {
-        "stockLevelStatus": {
-          "code": "inStock",
-          "codeLowerCase": "instock"
-        }
-      },
+      "code": "FB3LWES",
       "priceData": {
         "currencyIso": "USD",
         "priceType": "BUY",
         "value": "99.0",
         "formattedValue": "$99.00"
-      },
-      "code": "FB3LWES"
+      }
     }
   ],
   "invertedIndex": [
