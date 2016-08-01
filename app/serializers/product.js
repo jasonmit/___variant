@@ -69,7 +69,7 @@ export default DS.JSONAPISerializer.extend({
       };
     });
 
-    const payload = {
+    let payload = {
       data: {
         type: 'product',
         id: hash.code,
@@ -93,7 +93,11 @@ export default DS.JSONAPISerializer.extend({
           }
         }
       },
-      included: [].concat(variants, variantThemeValues, variantThemes)
+      included: [
+        ...variants,
+        ...variantThemeValues,
+        ...variantThemes
+      ]
     };
 
     return this._super(store, primaryModelClass, payload, id, requestType);
