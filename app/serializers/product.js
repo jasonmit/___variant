@@ -16,8 +16,12 @@ export default DS.JSONAPISerializer.extend({
     }, []);
   },
 
-  normalizeSingleResponse(store, primaryModelClass, hash, id, requestType) {
-    /* transform payload into a json-api expected shape */
+  /*
+   * Transform payload into expected json-api shape
+   *
+   * @public
+   */
+  normalizeSingleResponse(store, primaryModelClass, hash/*, id, requestType*/) {
     let variantThemes = hash.variantThemes.map((theme) => {
       return {
         type: 'variant-theme',
@@ -93,11 +97,7 @@ export default DS.JSONAPISerializer.extend({
           }
         }
       },
-      included: [
-        ...variants,
-        ...variantThemeValues,
-        ...variantThemes
-      ]
+      included: [...variants, ...variantThemeValues, ...variantThemes]
     };
 
     return this._super(store, primaryModelClass, payload, id, requestType);
