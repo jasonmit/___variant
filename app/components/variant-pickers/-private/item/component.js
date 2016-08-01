@@ -1,8 +1,8 @@
 import Ember from 'ember';
 
-const { computed, get, isEmpty } = Ember;
+const { computed, get, isEmpty, Component } = Ember;
 
-const ItemComponent = Ember.Component.extend({
+const ItemComponent = Component.extend({
   tagName: 'button',
   attributeBindings: ['title'],
   classNames: ['picker-item'],

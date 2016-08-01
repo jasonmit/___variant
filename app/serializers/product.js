@@ -3,6 +3,15 @@ import DS from 'ember-data';
 
 const { String: { capitalize } } = Ember;
 
+class Node {
+  constructor(type, id, attributes, relationships) {
+    this.type = type;
+    this.id = id;
+    this.attributes = attributes;
+    this.relationships = relationships;
+  }
+}
+
 export default DS.JSONAPISerializer.extend({
   _variantValuesByVariantId(payload, variantId) {
     return payload.reduce((out, { candidates, variantThemeValue }) => {
@@ -21,83 +30,49 @@ export default DS.JSONAPISerializer.extend({
    *
    * @public
    */
-  normalizeSingleResponse(store, primaryModelClass, hash/*, id, requestType*/) {
-    let variantThemes = hash.variantThemes.map((theme) => {
-      return {
-        type: 'variant-theme',
-        id: theme.variantName,
-        attributes: {
-          label: capitalize(theme.variantName)
-        }
-      };
+  normalizeSingleResponse(store, primaryModelClass, hash, id, requestType) {
+    const variantThemes = hash.variantThemes.map((theme) => {
+      return new Node('variant-theme', theme.variantName, {
+        label: capitalize(theme.variantName)
+      });
     });
 
-    let variantThemeValues = hash.variantThemes.reduce((out, theme) => {
-      /* NOTE: option here will soon be an object and not a string */
+    const variantThemeValues = hash.variantThemes.reduce((out, theme) => {
+      /* NOTE: `option` here will soon be an object and not a string */
       theme.options.forEach((option) => {
-        out.push({
-          type: 'variant-theme-value',
-          id: option,
-          attributes: {
-            label: option
-          },
-          relationships: {
-            'variant-theme': {
-              data: {
-                type: 'variant-theme',
-                id: theme.variantName
-              }
-            }
+        out.push(new Node('variant-theme-value', option, {
+          label: option
+        }, {
+          'variant-theme': {
+            data: new Node('variant-theme', theme.variantName)
           }
-        });
+        }));
       });
 
       return out;
     }, []);
 
-    let variants = hash.variants.map(({ code }) => {
-      return {
-        type: 'variant',
-        id: code,
-        relationships: {
-          'variant-theme-values': {
-            data: this._variantValuesByVariantId(hash.invertedIndex, code)
-              .map((variantThemeValue) => {
-                return {
-                  type: 'variant-theme-value',
-                  id: variantThemeValue
-                };
-              })
+    const variants = hash.variants.map(({ code }) => {
+      return new Node('variant', code, {}, {
+        'variant-theme-values': {
+          data: this._variantValuesByVariantId(hash.invertedIndex, code)
+            .map((value) => new Node('variant-theme-value', value))
           }
-        }
-      };
+        });
     });
 
-    let payload = {
-      data: {
-        type: 'product',
-        id: hash.code,
-        attributes: {
-          name: hash.name
+    const payload = {
+      data: new Node('product', hash.code, {
+        name: hash.name
+      }, {
+        'default-variant': {
+          data: new Node('variant', variants[0].id)
         },
-        relationships: {
-          'default-variant': {
-            data: {
-              type: 'variant',
-              id: variants[0].id
-            }
-          },
-          variants: {
-            data: variants.map((variant) => {
-              return {
-                type: 'variant',
-                id: variant.id
-              };
-            })
-          }
+        variants: {
+          data: variants.map(({ id }) => new Node('variant', id))
         }
-      },
-      included: [...variants, ...variantThemeValues, ...variantThemes]
+      }),
+      included: [...variants, ...variantThemes, ...variantThemeValues]
     };
 
     return this._super(store, primaryModelClass, payload, id, requestType);
